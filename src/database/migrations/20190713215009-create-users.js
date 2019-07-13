@@ -35,8 +35,8 @@ module.exports = {
       },
     });
   },
-
-  down: (queryInterface, Sequelize) => {
+  // Sequelize => removi o parametro do metodo abaixo
+  down: queryInterface => {
     return queryInterface.dropTable('users');
   },
 };
