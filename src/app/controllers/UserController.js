@@ -1,4 +1,4 @@
-import User from '../models/user';
+import User from '../models/User';
 
 class UserController {
   async store(req, res) {
@@ -16,6 +16,12 @@ class UserController {
       email,
       provider,
     });
+  }
+
+  async update(req, res) {
+    console.log(req.UserId);
+
+    return res.json({ Ok: true });
   }
 }
 
