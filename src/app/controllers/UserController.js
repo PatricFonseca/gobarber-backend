@@ -37,11 +37,17 @@ class UserController {
     const schema = Yup.object().shape({
       name: Yup.string(),
       email: Yup.string().email(),
-      oldPassword: Yup.string().min(6),
+      /* oldPassword: Yup.string().min(6),
       password: Yup.string() // Se o oldpassoword for informado então o password é obrigatório
         .min(6)
         .when('oldPassword', (oldPassword, field) =>
           oldPassword ? field.required() : field
+        ), */
+      password: Yup.string().min(6),
+      oldPassword: Yup.string()
+        .min(6)
+        .when('password', (password, field) =>
+          password ? field.required() : field
         ),
       confirmPassword: Yup.string().when('password', (password, field) =>
         password ? field.required().oneOf([Yup.ref('password')]) : field
@@ -51,7 +57,7 @@ class UserController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
-
+    console.log(req);
     const { email, oldPassword } = req.body;
 
     const user = await User.findByPk(req.userId);
@@ -60,10 +66,10 @@ class UserController {
       const userExists = await User.findOne({ where: { email } });
 
       if (userExists) {
-        return res.status(400).json({ error: 'User already exits' });
+        return res.status(400).json({ error: 'User already exists' });
       }
     }
-
+    console.log('Chegou aqui ss');
     if (oldPassword && !(await user.checkPassword(oldPassword))) {
       return res.status(401).json({ error: 'Password does not match' });
     }
