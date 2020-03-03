@@ -1,7 +1,7 @@
 # Projeto do backend da aplicação GoBarber
 
 ### Como iniciar a aplicação
-```cmd
+```shell
 yarn dev
 ```
 
